@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi
+web: gunicorn digital_recipe_book.wsgi
