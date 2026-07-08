@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}{{ recipe.sweetname }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(yellow, orange);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+        font-weight: bolder;
+        margin-top: 4%;
+    }
+
+    .recipe-container {
+        background-color: #E0E0E0;
+        padding: 30px;
+        height: 470px;
+        border-radius: 12px;
+        width: 1000px;
+        max-width: 95%;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        overflow: scroll;
+        scrollbar-width: none;
+    }
+
+    .recipe-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 100px;
+    }
+
+    .recipe-table {
+        flex: 2;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .recipe-table th,
+    .recipe-table td {
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .recipe-table th {
+        background-color: #5E35B1;
+        color: #FFD700;
+        text-align: center;
+    }
+
+    .recipe-image {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .recipe-image img {
+        width: 420px;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 18px;
+        background: #5E35B1;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+        background: #9C27B0;
+    }
+
+    .t2 td {
+        text-align: center;
+    }
+
+    .instructions {
+        margin-top: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .instructions h2 {
+        color: #5E35B1;
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 30px;
+    }
+
+    .instructions ol {
+        font-size: 18px;
+        line-height: 1.8;
+        padding-left: 25px;
+    }
+</style>
+{% endblock %}
+
+{% block heading %}{{ request.session.user_name|default:"User" }}{% endblock %}
+
+{% block content %}
+<div class="recipe-container">
+    <h1 style="text-align: center;color: #5E35B1;">{{ recipe.sweetname }}</h1>{% if friend %}<h3 style="text-align: center; font-weight: bold;">Cooked by {{ friend.name }} </h3>{% endif %}
+    <div class="recipe-content">
+        <!-- Info Table -->
+        <table class="recipe-table">
+            <tr><th>Category</th><td>{{ recipe.category }}</td></tr>
+            <tr><th>Origin</th><td>{{ recipe.origin }}</td></tr>
+            <tr><th>Festival</th><td>{{ recipe.festival }}</td></tr>
+            <tr><th>Servings</th><td>{{ recipe.servings }}</td></tr>
+            <tr><th>Prep Time</th><td>{{ recipe.preptime }} minutes</td></tr>
+            <tr><th>Cook Time</th><td>{{ recipe.cooktime }} minutes</td></tr>
+            <tr><th>Total Time</th><td>{{ recipe.preptime|add:recipe.cooktime }} minutes</td></tr>
+            <tr><th>Main Ingredient</th><td>{{ recipe.mainingredients }}</td></tr>
+            <tr><th>Cooking Method</th><td>{{ recipe.cooking_method }}</td></tr>
+            <tr><th>Texture</th><td>{{ recipe.texture }}</td></tr>
+        </table>
+
+        {% if recipe.image %}
+            <div class="recipe-image">
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.sweetname }}">
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- ✅ Ingredients Table -->
+    <table class="recipe-table">
+        <tr>
+            <th>Ingredients</th>
+            <th colspan="2">Quantity</th>
+        </tr>
+        {% for ing in ingredients_list %}
+        <tr class="t2">
+            <td style="text-transform: capitalize;">{{ ing.name }}</td>
+            <td>{{ ing.quantity }}</td>
+            <td style="text-transform: capitalize;">{{ ing.unit }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- ✅ Instructions Section -->
+    <div class="instructions">
+        <h2>Instructions</h2>
+        <ol>
+            {% for step in recipe.instructions.splitlines %}
+                {% if step %}
+                <li>{{ step }}</li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+
+<a href="{% url 'home' %}" class="back-btn">⬅ Back to Home</a>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  body {
+    font-family: "Dancing Script", cursive;
+  }
+  .form-container {
+    width: 350px;
+    height: 70vh;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: translate(0%, 25%);
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
+  td { padding: 5px; }
+  input, textarea {
+    font-size: 20px;
+    font-weight: bolder;
+    width: 330px;
+    padding: 5px;
+    border-radius: 8px;
+    border: none;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px #ffccff;
+  }
+  .btn-custom {
+    background-color: #ff66cc;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  .btn-custom:hover { background-color: #ff3399; }
+  .file-upload { display: none; }
+  .file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .file-label.green { background-color: green; }
+  .file-name { margin-left: 15px; font-style: italic; color: white; }
+</style>
+{% endblock %}
+
+{% block heading %}Add a Recipe{% endblock %}
+
+{% block content %}
+<div style="justify-items: center;">
+  <form method="POST" class="form-container" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      <tr><td><input type="text" name="sweetname" placeholder="Sweet Name"></td></tr>
+      <tr><td><input type="text" name="category" placeholder="Category"></td></tr>
+      <tr><td><input type="text" name="origin" placeholder="Origin State"></td></tr>
+      <tr><td><input type="text" name="festival" placeholder="Festival"></td></tr>
+      <tr><td><input type="number" name="servings" placeholder="Servings"></td></tr>
+      <tr><td><input type="number" name="preptime" placeholder="Preparation Time (In Minutes)"></td></tr>
+      <tr><td><input type="number" name="cooktime" placeholder="Cook Time (In Minutes)"></td></tr>
+      <tr><td><textarea name="ingredients" placeholder="Ingredients"></textarea></td></tr>
+      <tr><td><input type="text" name="mainingredients" placeholder="Main Ingredients"></td></tr>
+      <tr><td><textarea name="instructions" placeholder="Instructions"></textarea></td></tr>
+      <tr><td><input type="text" name="cooking_method" placeholder="Cooking Method"></td></tr>
+      <tr><td><input type="text" name="texture" placeholder="Texture"></td></tr>
+      <tr>
+        <td>
+          <input type="file" name="image" id="fileInput" class="file-upload">
+          <label for="fileInput" id="fileLabel" class="file-label">Upload File</label>
+          <span id="fileName" class="file-name"></span>
+        </td>
+      </tr>
+      <tr><td><button type="submit" class="btn-custom">Add Recipe</button></td></tr>
+    </table>
+  </form>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const fileLabel = document.getElementById("fileLabel");
+    const fileName = document.getElementById("fileName");
+
+    fileInput.addEventListener("change", function() {
+      if (fileInput.files.length > 0) {
+        fileLabel.classList.add("green");
+        fileName.textContent = fileInput.files[0].name;
+      } else {
+        fileLabel.classList.remove("green");
+        fileName.textContent = "";
+      }
+    });
+  </script>
+</div>
+{% endblock %}

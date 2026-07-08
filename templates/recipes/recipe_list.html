@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/reclist.css' %}">
+<style>
+/* Same styles as before */
+.custom-alert-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.custom-alert-box {
+    font-size: 25px;
+    font-weight: bolder;
+    background: #fff;
+    padding: 20px;
+    width: 500px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease-in-out;
+}
+.custom-alert-box h4 { color: #d9534f; margin-bottom: 15px; }
+.custom-alert-buttons { display: flex; justify-content: space-around; margin-top: 20px; }
+.custom-alert-buttons button {
+    padding: 10px 17px;
+    border: none; border-radius: 6px;
+    cursor: pointer; font-weight: bold;
+}
+.custom-alert-buttons .confirm { background-color: #d9534f; color: white; }
+.custom-alert-buttons .cancel { background-color: #6c757d; color: white; }
+button{
+    font-family: 'Dancing Script',cursive;
+}
+@keyframes fadeIn { from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);} }
+</style>
+{% endblock %}
+
+{% block heading %}{{friend.name}}'s Recipes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="mb-3 text-end">
+        <a href="{% url 'recipe_create' %}" class="btn btn-success">+ Add Recipe</a>
+    </div>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Image</th>
+                <th>Sweet Name</th>
+                <th>Category</th>
+                <th>Origin (State)</th>
+                <th>Festival</th>
+                <th>Total Time</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recipe in recipes %}
+            <tr>
+                <td>
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.sweetname }}" class="img-thumbnail" width="80">
+                    {% else %}
+                        <span class="text-muted">No image</span>
+                    {% endif %}
+                </td>
+                <td>{{ recipe.sweetname }}</td>
+                <td>{{ recipe.category }}</td>
+                <td>{{ recipe.origin|truncatechars:40 }}</td>
+                <td>{{ recipe.festival|truncatechars:40 }}</td>
+                <td>{{ recipe.preptime|add:recipe.cooktime }} minutes</td>
+                <td>{{ recipe.created_at|date:"d M Y" }}</td>
+                <td>
+                    <a href="{% url 'recipe_update' recipe.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm delete-btn" data-url="{% url 'recipe_delete' recipe.id %}">Delete</button>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="8" class="text-center">No recipes yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Custom Alert Modal -->
+<div class="custom-alert-overlay" id="customAlert">
+    <div class="custom-alert-box">
+        <h4>Are you sure?</h4>
+        <p>This action will permanently delete the recipe.</p>
+        <form id="deleteForm" method="post">
+            {% csrf_token %}
+            <div class="custom-alert-buttons">
+                <button type="submit" class="confirm">Delete</button>
+                <button type="button" class="cancel" id="cancelDelete">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const alertOverlay = document.getElementById("customAlert");
+    const deleteForm = document.getElementById("deleteForm");
+    const cancelBtn = document.getElementById("cancelDelete");
+
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", function(e){
+            e.preventDefault();
+            const actionUrl = this.getAttribute("data-url");
+            deleteForm.setAttribute("action", actionUrl);
+            alertOverlay.style.display = "flex";
+        });
+    });
+
+    cancelBtn.addEventListener("click", function(){
+        alertOverlay.style.display = "none";
+        deleteForm.setAttribute("action", ""); // reset
+    });
+</script>
+{% endblock %}

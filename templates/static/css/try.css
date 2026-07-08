@@ -1,0 +1,60 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body {
+    font-size: 30px;
+    background-color: black;
+    color: #FF00CE; /* Example of a fluorescent pink */
+}
+	
+.fluorescent-yellow {
+    background-color: rgb(255, 255, 0); /* Pure yellow, often used for fluorescent effects */
+}
+
+.fluorescent-blue {
+    background-color: rgb(0, 255, 255); /* Cyan, a common fluorescent blue */
+}
+
+header{
+    font-size: 25px;
+	background-color: rgb(127, 0, 255);
+	width: 100%;
+	height: 3rem;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	/* color: rgb(34,4,47); */
+    align-content: center;
+    justify-items: center;
+    
+}
+div{
+    width: 50%;
+    display: inline-block;
+    background-color: green;
+}
+.c1{
+    color: white;
+}
+.c2{
+    margin-right: 20px;
+    background-color: red;
+}
+
+nav div span{
+    font-size: 30px;
+}
+div a{
+    margin-left: 5px;
+    color: white;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+*,.dancing-script-uniquifier {
+  font-family: "Dancing Script", cursive;
+  /* font-optical-sizing: auto; */
+  font-weight: bolder;
+  /* font-style: normal; */
+}

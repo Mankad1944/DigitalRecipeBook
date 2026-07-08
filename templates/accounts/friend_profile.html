@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heading %}Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ==========================
+   Profile Page Styling
+   ========================== */
+body {
+    background: #FFD700;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #333;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.profile-card {
+    background: #E0E0E0;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    padding: 30px 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card img {
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.3s ease;
+}
+
+.profile-card img:hover {
+    transform: scale(1.05);
+}
+
+.profile-card h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Table Styling */
+.table {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    font-size: 22px;
+}
+
+.table th {
+    width: 40%;
+    background-color: #5E35B1;
+    font-weight: 600;
+    text-align: left;
+    color: #FFD700;
+    padding: 12px;
+    border: none;
+    font-weight: bolder;
+}
+
+.table td {
+    padding: 12px;
+    color: #212121;
+    background: #fff;
+    border: none;
+    font-weight: bolder;
+}
+
+/* Button Styling */
+.btn-primary {
+    background: #5E35B1;
+    border: none;
+    margin-top: 20px;
+    padding: 10px 20px;  
+    font-size: 1.1rem;
+    font-weight: bolder;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-family: 'Dancing Script', cursive;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    color: #FFD700;
+}
+
+/* Messages Styling */
+.alert {
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 20px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert-success { background: #8ce18c; color: rgb(1, 57, 1); }
+.alert-error   { background: #F44336; color: white; }
+.alert-warning { background: #FFC107; color: black; }
+.alert-info    { background: #2196F3; color: white; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+
+    <!-- Messages Block -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow p-4 profile-card">
+        <img src="{{ friend.image.url }}" alt="Profile">
+
+        <h3>
+            {{ friend.name }}{% if friend.surname %} {{ friend.surname }}{% endif %}
+        </h3>        
+
+        <table class="table table-bordered text-start bg-white">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ friend.name }}</td>
+                </tr>
+                <tr>
+                    <th>Surname</th>
+                    <td>{{ friend.surname }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ friend.email }}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ friend.phone }}</td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>{{ friend.password1 }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Form with Button -->
+        <form action="{% url 'edit_friend' friend.id %}" method="get">
+            <button type="submit" class="btn btn-primary">Edit Profile</button>
+        </form>
+        
+    </div>
+</div>
+{% endblock %}

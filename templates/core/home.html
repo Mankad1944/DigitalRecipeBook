@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<style> body, html { 
+	height: 100%; 
+	width: 100%; 
+	/*overflow: hidden;  cursor: pointer; */ 
+} 
+.gallery { 
+	padding: 10px; 
+	display: grid; 
+	grid-template-columns: 
+	repeat(4, 1fr); 
+	gap: 15px; 
+	width: 100%; 
+	max-width: 1370px; 
+} 
+.card { 
+	align-content: center; 
+	justify-items: center; 
+	position: relative; 
+	overflow: hidden; 
+	border-radius: 15px; 
+	box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+	cursor: pointer; transition: transform 0.3s ease-in-out; 
+} 
+.card img { 
+	width: 330px; 
+	height: 220px; 
+	border-radius: 10px; 
+	object-fit: cover; 
+	display: block; transition: 
+	transform 0.3s ease-in-out; 
+} 
+.card:hover img { 
+	transform: scale(0.9); 
+	filter: brightness(70%); 
+} 
+.card .overlay { 
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	height: 100%; 
+	width: 100%; 
+	background: rgba(0,0,0,0.5); 
+	display: flex; 
+	justify-content: center; 
+	align-items: center; 
+	color: #FFD700; font-size: 1.5rem; 
+	font-weight: bold; 
+	opacity: 0; 
+	transition: opacity 0.3s ease-in-out; 
+} 
+.card:hover .overlay { 
+	opacity: 1; 
+	} 
+@media (max-width: 768px) { 
+	.gallery { 
+		grid-template-columns: repeat(3, 1fr); 
+		} 
+	} 
+@media (max-width: 480px) 
+{ 
+	.gallery { 
+		grid-template-columns: 1fr; 
+	}
+}
+.video-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh; /* full screen height */
+    overflow: hidden;
+	background: rgba(0,0,0,0.5);
+}
+
+#bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    object-fit: cover;
+}
+
+.overlay {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    /* top: 40%; */
+	font-size: 35px;
+	color: #FFD700;
+}
+</style>
+{% endblock %}
+
+{% block heading %}
+{% if request.session.user_id %}
+Welcome, {{ request.session.user_name|default:"User" }}
+{% else %}
+Digital Recipe Book
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="body">
+	<section class="video-section">
+		<video autoplay loop muted playsinline id="bg-video">
+			<source src="{% static 'images/Indian_Sweets_Video.mp4' %}" type="video/mp4">
+		</video>
+		<div class="overlay">
+			<h1>Digital Recipe Book For Family and Friends</h1>
+		</div>
+	</section>
+	</section>
+	<section id="home">
+		<div class="main-box">
+			<form method="get" class="filter" id="filterForm">
+				<select name="filter-switch" id="filter-switch">
+					<option value="name" {% if filter_by == "name" %}selected{% endif %}>Name</option>
+					<option value="state" {% if filter_by == "state" %}selected{% endif %}>State</option>
+					<option value="product" {% if filter_by == "product" %}selected{% endif %}>Category</option>
+				</select>
+				<input type="text" name="q" id="searchInput" value="{{ search_query }}" placeholder="Search...">
+			</form>
+			
+			<hr>
+			<div class="sub-main-box">
+				<div class="gallery" id="gallery">
+					{% for recipe in recipes %}
+						<div class="card" data-name="{{ recipe.sweetname }}" data-state="{{ recipe.origin }}" data-product="{{ recipe.category }}">
+							<a href="{% url 'recipe_detail' recipe.id %}">
+								{% if recipe.image and recipe.image.url %}
+									<img src="{{ recipe.image.url }}" alt="{{ recipe.sweetname }}">
+								{% else %}
+									<img src="{% static 'images/default.jpg' %}" alt="Default Image">
+								{% endif %}
+								<div class="overlay">{{ recipe.sweetname }}</div>
+							</a>
+						</div>
+					{% empty %}
+						<p>No sweets found in database.</p>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<div class="main">
+			<div class="all" id="about">
+				<h2>About Us</h2>
+				<p>Welcome to the Digital Recipe Book for Family & Friends, a dedicated space for preserving and sharing the sweetness of India's rich culinary traditions. This platform focuses exclusively on Indian sweets recipes, allowing family and friends to come together, contribute, and celebrate the joy of traditional desserts.</p>
+			</div>
+			<div class="all" id="services">
+				<h2>Services</h2>
+				<ol>
+					<li>User Registration & Login: Secure registration and login system for users to create their own accounts and access recipes.</li>
+					<li>Recipe Management: Users can add their own recipes, view recipes shared by others, and delete only the recipes they have created.</li>
+					<li>Categorization & Filters: Recipes are organized and can be filtered by Indian States and Festivals for easy discovery.</li>
+					<li>Recipe Sharing & Discovery: Encourages family and friends to share unique Indian sweets recipes and explore those contributed by others.</li>
+					<li>Admin Control: The superuser (admin) has complete control over users, recipes, and categories to maintain the platform.</li>
+					<li>Easy Access Anywhere: A web-based platform accessible on any device, making it easy to browse and share recipes from anywhere.</li>
+				</ol>
+			</div>
+			<div class="all" id="contact">
+				<h2>Contact Us</h2>
+				<p>We'd love to hear from you! Whether you want to share feedback, suggest new features, or simply connect with us, feel free to reach out.</p>
+				<ul>
+					<li>📧 Email: support@digitalrecipebook.com</li>
+					<li>📞 Phone: +91-98xxxxxx</li>
+					<li>🏠 Address: Digital Recipe Book Team, Ahmedabad, Gujarat, India</li>
+				</ul>
+			</div>
+		</div>
+		<div class="sub">
+			<img src="{% static 'images/img1.jpg' %}" alt="indian Sweets">
+			<img src="{% static 'images/img2.jpg' %}" alt="Indian Sweets">
+		</div>
+	</section>
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const searchInput = document.getElementById("searchInput");
+		const filterSelect = document.getElementById("filter-switch");
+		const cards = document.querySelectorAll(".card");
+	
+		searchInput.addEventListener("keyup", function () {
+			const filterType = filterSelect.value;
+			const query = searchInput.value.toLowerCase();
+	
+			cards.forEach(card => {
+				let value = "";
+				if (filterType === "name") {
+					value = card.getAttribute("data-name").toLowerCase();
+				} else if (filterType === "state") {
+					value = card.getAttribute("data-state").toLowerCase();
+				} else if (filterType === "product") {
+					value = card.getAttribute("data-product").toLowerCase();
+				}
+	
+				if (value.includes(query)) {
+					card.style.display = "block";
+				} else {
+					card.style.display = "none";
+				}
+			});
+		});
+	});
+setTimeout(function() {
+	alert("Session expired! Redirecting to login.");
+	window.location.href = "{% url 'login' %}";
+}, 3600000);  // 110 seconds
+
+</script>
+{% endblock %}

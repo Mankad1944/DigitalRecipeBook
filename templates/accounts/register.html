@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register Page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/reg.css' %}">
+<style>
+    *, .dancing-script-uniquifier {
+        font-family: "Dancing Script", cursive;
+        font-weight: bolder;
+    }
+
+    /* Bootstrap Button */
+    .btn {
+        width: 100%;
+        display: inline-block;
+        font-weight: 700;
+        color: #212121;
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        background-color: #5E35B1;
+        color: #e0e0e0;
+        font-size: 25px;
+        border-radius: .375rem;
+        transition: 0.5s ease all;
+    }
+
+    .btn:hover {
+        transition: 0.5s ease all;
+        background: #9C27B0;
+    }
+
+    .form-control {
+        width: 300px;
+        height: 25px;
+    }
+
+    /* Image input box styling */
+    .form-control-file {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 300px;
+        color: #E0E0E0;
+        background-color: red;
+        /* border: 2px solid red; default red */
+        border-radius: 4px;
+        padding: 3px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control-file.valid {
+        background-color: green; /* turn green when image selected */
+    }
+</style>
+{% endblock %}
+
+{% block heading %}User Registration{% endblock %}
+
+{% block content %}
+<div class="mainhead">
+    <div class="form-box">
+        <div id="successMessage" class="success-alert" style="display:none;">
+            Registration Successful
+        </div>
+
+        <!-- Registration & OTP Form -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if not show_otp_box %}
+                <!-- Step 1: Registration Fields -->
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="name" placeholder="First Name" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="surname" placeholder="Surname (Optional)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="phone" placeholder="Phone" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="email" class="form-control" name="email" placeholder="E-mail" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="password" class="form-control" name="password1" placeholder="Password" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- Image Input -->
+                            <input type="file" class="form-control-file" name="profile_image" accept="image/*" id="profileImage">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="step" value="1">
+                            <button class="btn" type="submit">Register</button>
+                        </td>
+                    </tr>
+                </table>
+            {% else %}
+                <!-- Step 2: OTP Verification -->
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="otp" placeholder="Enter OTP" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="step" value="2">
+                            <button class="btn" type="submit">Verify OTP</button>
+                        </td>
+                    </tr>
+                </table>
+            {% endif %}
+
+            <table>
+                <tr>
+                    <td style="text-align:center; color: black; font-size: 18px;">
+                        Already have an account?
+                        <a href="{% url 'login' %}" class="login-link">Login</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    // Change border color to green when image is selected
+    const profileImage = document.getElementById('profileImage');
+    profileImage.addEventListener('change', function() {
+        if (this.files && this.files.length > 0) {
+            this.classList.add('valid'); // turn border green
+        } else {
+            this.classList.remove('valid'); // back to red if cleared
+        }
+    });
+</script>
+{% endblock %}

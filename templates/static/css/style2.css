@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    width: 100vw;
+    font-family: "Dancing Script", cursive;
+    /* background: #E0E0E0;  */
+    background: radial-gradient(yellow,orange);
+    /* background-color: #E0E0E0; */
+    /* background: linear-gradient(-45deg, #ff0057, #2c003e, #240046, #295ebf); */
+    background-size: 400% 400%;
+    /* animation: cyberBG 12s ease infinite; */
+    /* animation-name: sunset-glow; */
+
+    /* Set the duration of one animation cycle */
+    animation-duration: 10s;
+
+    /* Control the timing function */
+    animation-timing-function: ease-in-out;
+
+    /* Make the animation repeat infinitely */
+    animation-iteration-count: infinite;
+
+    /* Make the animation go back and forth */
+    animation-direction: alternate;
+    color: #212121;
+}
+
+/* @keyframes cyberBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+} */
+
+@keyframes sunset-glow {
+    0% {
+        background-color: #F8BBD0; /* Dusty Rose */
+    }
+    33% {
+        background-color: #A5D6A7; /* Pistachio Green */
+    }
+    66% {
+        background-color: #B79C61; /* Rose Gold Accent */
+    }
+    100% {
+        background-color: #F8BBD0; /* Dusty Rose */
+    }
+}
+
+/* ----------------------------------------------------------- */
+/* --- REVISED NAVBAR STYLES TO FIX THE LAYOUT --- */
+/* ----------------------------------------------------------- */
+
+header nav {
+    background: purple;
+    /* background: rgba(255, 255, 255, 0.1); semi-transparent */
+	backdrop-filter: blur(15px); /* blur effect */
+    height: 4rem;
+    width: 98vw;
+
+    display: flex;           /* main fix */
+    align-items: center;
+    justify-content: space-between;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 0 20px;
+    background-color: #5E35B1;
+    color: #FFD700;
+}
+
+.c1 {
+    display: flex;
+    align-items: center;
+}
+
+/* title - force center */
+.c2 {
+    margin-left: 10%;
+    flex: 1;                        /* allow it to expand */
+    display: flex;
+    justify-content: center;        /* center text inside */
+    align-items: center;
+}
+
+.c2 h1 {
+    font-size: 40px;
+    margin: 0;
+}
+
+/* icons on right */
+.c3 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-right: 10px;
+    color: #FFD700;
+}
+
+/* logo image */
+img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* material icons */
+.material-symbols-outlined {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+.c3 a span{
+    color: #FFD700;
+}
+
+/* Add this to hide the popup */
+.popup {
+    display: none;
+}

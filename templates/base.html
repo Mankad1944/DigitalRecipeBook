@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Digital Recipe Book for Family and Friends{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" />
+
+    {% block extra_css %}{% endblock %}       
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="c1">
+                <img src="{% static 'images/logo1.jpeg' %}" alt="Logo" class="logo">
+            </div>
+            <div class="c2">
+                <h1>{% block heading %}{% endblock %}</h1>
+            </div>
+            <div class="c4">
+            <div class="c3">
+                {% if request.resolver_match.url_name == 'home' %}
+                    <a href="#home" title="RECIPES">
+                        <span class="material-symbols-outlined" style="color: #E0E0E0;">menu_book_2</span>
+                    </a>
+                    <a href="#about" title="ABOUT">
+                        <span class="material-symbols-outlined" style="color: #E0E0E0;">info</span>
+                    </a>
+                {% endif %}
+                <a href="{% url 'home' %}" title="HOME">
+                    <span class="material-symbols-outlined">home</span>
+                </a>
+                
+                {% if request.session.user_id %}
+                    <a href="{% url 'friend_profile' %}" title="{{ request.session.user_name }}'s Profile">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </a>
+                    <a href="{% url 'recipe_list' %}" title="RECIPE (ADD, UPDATE, DELETE, DISPLAY)">
+                        <span class="material-symbols-outlined">cooking</span>
+                    </a>
+                    <a href="{% url 'logout' %}" title="LOGOUT">
+                        <span class="material-symbols-outlined">logout</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" title="LOGIN">
+                        <span class="material-symbols-outlined">login</span>
+                    </a>
+                {% endif %}
+            </div>
+                <!-- {% if friend %}
+                    <a href="{% url 'edit_friend' friend.id %}" title="Edit Profile">
+                        <span class="material-symbols-outlined">manage_accounts</span>
+                    </a>
+                {% endif %} -->
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- <footer style="color: #fff;;background: #5E35B2;height: 200px; width: auto; align-content: center;">
+        <p style="float: right;">&copy; 2025 All Rights Reserved</p>
+    </footer> -->
+</body>
+</html>

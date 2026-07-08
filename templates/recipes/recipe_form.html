@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    body {
+        margin: 0;
+        font-weight: bolder;
+        background: radial-gradient(yellow, orange);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-y: hidden;
+        font-size: 23px;
+    }
+
+    .container {
+        background: #E0E0E0;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        width: 100%;
+        max-width: 900px;
+        height: 500px;
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .form-table td {
+        padding: 10px;
+        vertical-align: middle;
+    }
+
+    .form-table label {
+        font-weight: 600;
+        color: #222;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-table input[type="text"],
+    .form-table input[type="number"],
+    .form-table input[type="file"],
+    .form-table textarea,
+    .form-table select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #5E35B1;
+        border-radius: 10px;
+        outline: none;
+        font-size: 15px;
+        background: transparent;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-table textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    input[type="file"]::file-selector-button {
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+    .file-input-red::file-selector-button {
+        background-color: red;
+    }
+    .file-input-green::file-selector-button {
+        background-color: green;
+    }
+
+    .file-input-red::-webkit-file-upload-button {
+        background-color: red;
+        color: white;
+    }
+    .file-input-green::-webkit-file-upload-button {
+        background-color: green;
+        color: white;
+    }
+
+    .btn {
+        font-size: 20px;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+    .btn-action {
+        background: #5E35B1;
+        border: none;
+        font-family: 'Dancing Script', cursive;
+        font-size: 20px;
+        font-weight: bolder;
+    }
+    .btn-action:hover {
+        background: #4527A0;
+    }
+
+    .btn-cancel {
+        background: #9C27E0;
+        border: none;
+        margin-left: 10px;
+        text-decoration: none;
+    }
+    .btn-cancel:hover {
+        background: #7B1FA2;
+    }
+</style>
+{% endblock %}
+
+{% block heading %}{{friend.name}}'s Recipes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 style="text-align: center;">{{ action }} Recipe</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="form-table">
+            {% for field in form %}
+            <tr>
+                <td style="width: 25%;"><label for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+                <td>
+                    {% if field.name == "image" %}
+                        <input type="file" name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="file-input-red">
+                    
+                    {% elif field.name == "ingredients_text" %}
+                        <!-- Custom textarea for Ingredients -->
+                        <textarea name="{{ field.html_name }}" id="{{ field.id_for_label }}" rows="6" cols="50"
+                                  placeholder="Enter ingredients (one per line, e.g. 'Sugar 10 grams\nmilk1567')">
+                            {{ field.value|default_if_none:'' }}
+                        </textarea>
+                    
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="submit" class="btn btn-action">{{ action }}</button>
+                    <a href="{% url 'recipe_list' %}" class="btn btn-cancel">Cancel</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+            fileInput.classList.add("file-input-red");
+            fileInput.style.color = "red";
+            fileInput.style.fontStyle = "italic";
+
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    fileInput.classList.remove("file-input-red");
+                    fileInput.classList.add("file-input-green");
+                    fileInput.style.color = "green";
+                    fileInput.style.fontWeight = "bold";
+                    fileInput.style.fontStyle = "normal";
+                } else {
+                    fileInput.classList.remove("file-input-green");
+                    fileInput.classList.add("file-input-red");
+                    fileInput.style.color = "red";
+                    fileInput.style.fontWeight = "normal";
+                    fileInput.style.fontStyle = "italic";
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

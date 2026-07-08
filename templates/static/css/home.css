@@ -1,0 +1,140 @@
+*{
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.filter{
+  margin-top: 10px;
+}
+
+.filter select{
+  font-family: "Dancing Script", cursive;
+  font-size: 20px;
+  font-weight: bolder;
+  border-radius: 7px;
+  cursor: pointer;
+  /* padding: 4px 8px; */
+  color: #5E35B1;
+	border: 2px solid #5E35B1;
+	background: transparent;
+  transition: 0.3s ease all;
+}
+.filter select:hover{
+  transition: 0.3s ease all;
+	color: #FFD700;
+	background: #5E35B1;
+}
+
+.filter input{
+  margin-bottom: 10px;
+  font-family: "Dancing Script", cursive;
+  font-size: 20px;
+  font-weight: bolder;
+  border-radius: 10px;
+  padding: 2.5px 10px;
+  background-color: transparent;
+	border: 2px solid #5E35B1;
+  transition: 0.2s ease-in;
+}
+.filter input:focus{
+  background-color: #5E35B1;
+  color:#FFD700;
+}
+.main-box{
+  margin-top: 55px;
+  align-content: center;
+  justify-items: center;
+  /* background-color: red; */
+  height: 87vh; 
+  width: 97vw;
+  /* overflow: scroll;
+  border-radius: 20px; */
+}
+
+.sub-main-box{
+  align-content: center;
+  justify-items: center;
+  /* margin-top: 50px; */
+  /* background-color: green; */
+  height: 78vh; 
+  width: 95vw;
+  overflow: scroll;
+  border-radius: 20px;
+}
+
+hr{
+  /* position: fixed; */
+  background-color: #212121;
+  height: 5px;
+  width: 90%;
+  margin-top: -2px;
+}
+div .body{
+  scroll-behavior: smooth;
+}
+section{
+  align-content: center;
+  justify-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+div .all{
+  width: 60vw;
+  /* background: rgba(255, 255, 255, 0.1); */
+  background: #E0E0E0;
+  color: #212121;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+}
+
+.main{
+  margin-top: 50px;
+  margin-left: 30px;
+  height: 77vh;
+  width: 65vw;
+  overflow: scroll;
+  /* background-color: red; */
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  justify-items: center;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.main h2{
+  text-align: center;
+}
+.main p{
+  /* padding: 10px; */
+  font-family: "Macondo", cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-align: justify;
+}
+ol li, ul li{
+  padding: 10px;
+  font-family: "Macondo", cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-align: justify;
+}
+
+.sub{
+  float: right;
+  margin-top: 15px;
+}
+.sub img {
+  background-color: red;
+  height: 300px;
+  width: 450px;
+  margin: 30px auto;
+  margin-right: 30px;
+  border-radius: 30px;
+  display: block;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+ }

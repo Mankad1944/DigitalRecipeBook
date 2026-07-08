@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block extra_css %}
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Dancing script', cursive;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    header{
+        display: none;
+    }
+
+    .wrapper {
+		position: relative;
+		height: 100vh;
+		width: 100vw;
+		background: linear-gradient(270deg, #4713d7, #119db9, #6a11cb, #2575fc);
+		background-size: 800% 800%;
+		animation: gradientShift 10s ease infinite;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #212121;
+		font-size: 3rem;
+		font-weight: bold;
+		text-align: center;
+		}
+
+		@keyframes gradientShift {
+		0% { background-position: 0% 50%; }
+		50% { background-position: 100% 50%; }
+		100% { background-position: 0% 50%; }
+		}
+
+		.welcome-text {
+    font-size: 85px;
+    background: linear-gradient(to right, #ca5481, #b24801, #c0ad00, #8c008c);
+    background-size: 300% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    z-index: 2;
+    animation: gradient-animation 8s ease infinite;
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+		.welcome-text span {
+		transition: transform 1s ease-in-out;
+		white-space: pre;
+		}
+
+		.welcome-left { padding-right: 10px; }
+		.welcome-right { padding-left: 10px; }
+
+		/* Split halves */
+		.half {
+		position: absolute;
+		top: 0;
+		width: 50%;
+		height: 100%;
+		background: inherit;
+		background-size: inherit;
+		animation: inherit;
+		transition: transform 2s ease-in-out;
+		z-index: 1;
+		}
+
+		.left { left: 0; clip-path: inset(0 50% 0 0); }
+		.right { right: 0; clip-path: inset(0 0 0 50%); }
+
+		/* Animations */
+		.open-left { transform: translateX(-100%); }
+		.open-right { transform: translateX(100%); }
+		.text-left { transform: translateX(-100%); }
+		.text-right { transform: translateX(100%); }
+
+    /* .wrapper {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fff;
+
+    }
+
+    .half {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      transition: transform 1.5s ease-in-out;
+      z-index: 2;
+    }
+
+    .left {
+      left: 0;
+      background: #f39c12;  saffron
+    }
+
+    .right {
+      right: 0;
+      background: #d35400;  deep orange 
+    }
+
+    .open-left {
+      transform: translateX(-100%);
+    }
+
+    .open-right {
+      transform: translateX(100%);
+    }
+
+    .welcome-text {
+      position: absolute;
+      z-index: 3;
+      color: white;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .welcome-left, .welcome-right {
+      display: block;
+      transition: transform 1.5s ease-in-out, opacity 1s;
+    }
+
+    .text-left {
+      transform: translateX(-150%);
+      opacity: 0;
+    }
+
+    .text-right {
+      transform: translateX(150%);
+      opacity: 0;
+    } */
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="wrapper" onclick="openWindow()">
+    <div class="welcome-text">
+      <span class="welcome-left">{% if friend %}Welcome{% else %}Welcome to Your Family’s{% endif %}</span>
+      <span class="welcome-right">{% if friend %}{{friend.name}} {{friend.surname}}{% else %}Treasure of Recipes{% endif %}</span>
+    </div>
+    <div class="half left"></div>
+    <div class="half right"></div>
+  </div>
+
+  <script>
+    function openWindow() {
+      // Animate halves + text
+      document.querySelector(".left").classList.add("open-left");
+      document.querySelector(".right").classList.add("open-right");
+      document.querySelector(".welcome-left").classList.add("text-left");
+      document.querySelector(".welcome-right").classList.add("text-right");
+
+      // After animation, redirect to home.html
+      setTimeout(() => {
+        window.location.href = "{% url 'home' %}";  // Django -> {% url 'home' %}
+      }, 1000);
+    }
+  </script>
+{% endblock %}
