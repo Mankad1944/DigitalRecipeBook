@@ -7,3 +7,11 @@ media/
 staticfiles/
 .idea/
 .vscode/
+
+venv/
+__pycache__/
+*.pyc
+.env
+.idea/
+.vscode/
+staticfiles/
