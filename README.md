@@ -337,13 +337,13 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Author
 
-**Brijesh Mankad**
+**Vanshil Mankad**
 
 MCA Student | Full Stack Developer | Python & Django Enthusiast
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/Mankad1944/
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: [https://linkedin.com/in/vanshil-mankad-1a6684343/
 
 ---
 
